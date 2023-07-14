@@ -26,7 +26,12 @@ public class Player : MonoBehaviour
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
     }
-    
+    public void ExtraLife()
+    {
+        maxLives = 5;
+        lives = maxLives;
+        GameManager.Instance.UpdateLives();
+    }
     
     public int GetPoints()
     {
@@ -34,9 +39,16 @@ public class Player : MonoBehaviour
     }
     
     int pointsToLives = 0;
+    int pointsToUpgrate = 0;
     public void AddPoints(int points)
     {
-     
+        pointsToUpgrate += points;
+        if (pointsToUpgrate >= 75)
+        {
+            pointsToUpgrate -= 75;
+            GameManager.Instance.Upgrade();
+        }   
+  
         pointsToLives += points;
         if (pointsToLives >= 25)
         {
@@ -67,6 +79,24 @@ public class Player : MonoBehaviour
             {
                 Instantiate(playerDeathEffect, transform.position, transform.rotation);
                 StartCoroutine(Invicible());
+            }
+        }
+        if (other.CompareTag("Bullet") && !isInvincible)
+        {
+            if (other.GetComponent<Bullet>().GetOwner() == BulletType.Enemy)
+            {
+                lives--;
+                GameManager.Instance.UpdateLives();
+                if (lives <= 0)
+                {
+                    lives = 0;
+                    Die();
+                }
+                else
+                {
+                    Instantiate(playerDeathEffect, transform.position, transform.rotation);
+                    StartCoroutine(Invicible());
+                }
             }
         }
     }

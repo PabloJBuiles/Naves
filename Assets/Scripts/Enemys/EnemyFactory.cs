@@ -60,4 +60,11 @@ public class EnemyFactory : MonoBehaviour
             }
         }
     }
+    
+    public void EnemieAdd(GameObject newEnemy)
+    {
+        spawnTime -= 0.75f;
+        enemyPrefabs.Add(newEnemy);
+        maxEnemies+=25;
+    }
 }

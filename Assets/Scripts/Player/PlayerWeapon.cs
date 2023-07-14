@@ -4,16 +4,16 @@ using UnityEngine;
 
 public class PlayerWeapon : MonoBehaviour
 {
-    [SerializeField,Range(0.01f,2f)] float fireRate = 0.5f;
-    [SerializeField] float damage = 10f;
-    [SerializeField] float range = 100f;
-    [SerializeField] Transform firePoint;
-    [SerializeField] GameObject bulletPrefab;
-    [SerializeField] GameObject bulletSpawnEffect;
-    [SerializeField] GameObject bulletHitEffect;
-    [SerializeField, Range(1,50)] int maxBulletsPool = 10;
-    
-    private List<GameObject> bullets = new List<GameObject>();
+    [SerializeField,Range(0.01f,2f)] protected float fireRate = 0.5f;
+    [SerializeField]protected float damage = 10f;
+    [SerializeField]protected float range = 100f;
+    [SerializeField]protected Transform firePoint;
+    [SerializeField]protected GameObject bulletPrefab;
+    [SerializeField]protected GameObject bulletSpawnEffect;
+    [SerializeField]protected GameObject bulletHitEffect;
+    [SerializeField, Range(1,50)]protected int maxBulletsPool = 10;
+
+    protected List<GameObject> bullets = new List<GameObject>();
 
     private float nextFire = 0f;
     
@@ -56,7 +56,7 @@ public class PlayerWeapon : MonoBehaviour
         }
     }
 
-    private void CreateBullet()
+    protected virtual void CreateBullet()
     {
         GameObject bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
         bullets.Add(bullet);

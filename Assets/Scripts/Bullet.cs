@@ -9,9 +9,9 @@ public enum BulletType
 }
 public class Bullet : MonoBehaviour
 {
-    BulletType bulletType;
-    float damage;
-    [SerializeField, Range(0.01f, 50f)] float speed = 0.75f;
+    private BulletType bulletType = BulletType.Player;
+    float damage = 50;
+    [SerializeField, Range(0.001f, 50f)] float speed = 0.75f;
     Rigidbody2D rb;
 
     [SerializeField] private GameObject bulletHitEffect;
@@ -60,5 +60,10 @@ public class Bullet : MonoBehaviour
     {
         GameObject bulletHit = Instantiate(bulletHitEffect, transform.position, transform.rotation);
         Destroy(bulletHit, 1.5f);
+    }
+
+    public int GetDamage()
+    {
+        return (int)damage;
     }
 }

@@ -7,12 +7,14 @@ public class Enemy : MonoBehaviour
 {
     [SerializeField] int health = 50;
     [SerializeField] int score = 8;
+    int maxHealth = 0;
     Player player;
     [SerializeField] GameObject enemyDeathEffect;
     // Start is called before the first frame update
     void Start()
     {
         player = FindObjectOfType<Player>();
+        maxHealth = health;
     }
 
     // Update is called once per frame
@@ -32,13 +34,18 @@ public class Enemy : MonoBehaviour
                 {
                     bullet.gameObject.SetActive(false);
                     bullet.Explodes();
-                    health -= 10;
+                    health -= bullet.GetDamage();
                     if (health <= 0)
                     {
                         Die();
                     }
                 }
             }
+        }
+
+        if (other.CompareTag("Laser"))
+        {
+            Die();
         }
    
     }
@@ -58,7 +65,17 @@ public class Enemy : MonoBehaviour
     }
     public void Resurrect()
     {
-        health = 50;
+        maxHealth ++;
+        health = maxHealth;
         gameObject.SetActive(true);
+    }
+
+    public void Heal(int healthPower)
+    {
+        health += healthPower;
+        if (health > maxHealth)
+        {
+            health = maxHealth;
+        }
     }
 }
